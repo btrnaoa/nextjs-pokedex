@@ -9,6 +9,38 @@ type PaginationProps = {
   basePath: string;
 };
 
+type PaginationButtonProps = {
+  href: string;
+  disabled: boolean;
+  active?: boolean;
+  children: React.ReactNode;
+};
+
+function PaginationButton({
+  href,
+  disabled,
+  active,
+  children,
+}: PaginationButtonProps) {
+  const classes = `w-12 min-w-min btn${active ? ' btn-active' : ''}`;
+  if (disabled) {
+    return (
+      <button className={classes} type="button" disabled>
+        {children}
+      </button>
+    );
+  }
+  return (
+    <Link className={classes} href={href}>
+      {children}
+    </Link>
+  );
+}
+
+PaginationButton.defaultProps = {
+  active: false,
+};
+
 export default function Pagination({
   currentPage,
   totalItems,
@@ -24,40 +56,29 @@ export default function Pagination({
   });
   const lastPage = pages[pages.length - 1] as number;
   return (
-    <div className="mb-12 btn-group">
-      {currentPage > 1 ? (
-        <Link className="btn" href={`${basePath}/${currentPage - 1}`}>
-          Prev
-        </Link>
-      ) : (
-        <button className="btn" type="button" disabled>
-          Prev
-        </button>
-      )}
-      {pages.map((page, i) =>
-        page === breakLabel ? (
-          <button key={i} type="button" className="w-12 btn" disabled>
-            {page}
-          </button>
-        ) : (
-          <Link
-            key={i}
-            href={`${basePath}/${page}`}
-            className={`w-12 btn${page === currentPage ? ' btn-active' : ''}`}
-          >
-            {page}
-          </Link>
-        ),
-      )}
-      {currentPage < lastPage ? (
-        <Link className="btn" href={`${basePath}/${currentPage + 1}`}>
-          Next
-        </Link>
-      ) : (
-        <button className="btn" type="button" disabled>
-          Next
-        </button>
-      )}
+    <div className="mb-12 btn-group no-animation">
+      <PaginationButton
+        href={`${basePath}/${currentPage - 1}`}
+        disabled={currentPage <= 1}
+      >
+        Prev
+      </PaginationButton>
+      {pages.map((page, i) => (
+        <PaginationButton
+          key={i}
+          href={`${basePath}/${page}`}
+          disabled={page === breakLabel}
+          active={page === currentPage}
+        >
+          {page}
+        </PaginationButton>
+      ))}
+      <PaginationButton
+        href={`${basePath}/${currentPage + 1}`}
+        disabled={currentPage >= lastPage}
+      >
+        Next
+      </PaginationButton>
     </div>
   );
 }
