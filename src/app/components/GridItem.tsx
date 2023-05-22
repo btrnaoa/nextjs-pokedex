@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { PokemonData } from '../types';
+import { PokemonData } from '../pokemon/types';
 
 type GridItemProps = {
   data: PokemonData;
