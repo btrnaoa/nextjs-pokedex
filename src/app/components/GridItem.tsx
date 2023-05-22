@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { PokemonData } from '../pokemon/types';
+import TypeBadge from './TypeBadge';
 
 type GridItemProps = {
   data: PokemonData;
@@ -22,13 +23,8 @@ export default function GridItem({ data }: GridItemProps) {
       <p className="text-sm">#{data.id}</p>
       <p className="font-bold capitalize">{data.name}</p>
       <div className="space-x-2 text-xs text-white uppercase">
-        {data.types.map((type) => (
-          <span
-            key={type}
-            className="px-2 py-0.5 font-bold bg-black rounded-md"
-          >
-            {type}
-          </span>
+        {data.types.map((type, i) => (
+          <TypeBadge key={i} type={type} />
         ))}
       </div>
     </div>
