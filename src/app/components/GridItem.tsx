@@ -8,7 +8,7 @@ type GridItemProps = {
 
 export default function GridItem({ data }: GridItemProps) {
   return (
-    <div className="flex flex-col w-40 p-4 pt-8 text-black bg-white h-28 min-h-fit rounded-2xl">
+    <div className="flex flex-col h-32 p-4 pt-8 text-black bg-white w-44 rounded-2xl">
       <div className="relative self-center w-20">
         <div className="absolute bottom-0">
           <Image
